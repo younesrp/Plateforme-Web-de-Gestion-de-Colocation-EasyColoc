@@ -98,6 +98,10 @@ new #[Layout('layouts.app')] class extends Component
 
                 @if($colocation->isActive())
                     <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <livewire:balances.show :colocation="$colocation" />
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                         <livewire:categories.manage :colocation="$colocation" />
                     </div>
 
