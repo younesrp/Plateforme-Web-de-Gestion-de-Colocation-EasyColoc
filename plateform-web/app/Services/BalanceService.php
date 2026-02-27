@@ -11,6 +11,7 @@ class BalanceService
     {
         $members = $colocation->activeMembers;
         $expenses = $colocation->expenses;
+        $payments = $colocation->payments;
 
         if ($members->isEmpty() || $expenses->isEmpty()) {
             return [
@@ -26,7 +27,11 @@ class BalanceService
         $balances = [];
         foreach ($members as $member) {
             $totalPaid = $expenses->where('payer_id', $member->id)->sum('amount');
-            $balance = $totalPaid - $sharePerMember;
+            
+            $paymentsReceived = $payments->where('to_user_id', $member->id)->sum('amount');
+            $paymentsSent = $payments->where('from_user_id', $member->id)->sum('amount');
+            
+            $balance = $totalPaid - $sharePerMember + $paymentsReceived - $paymentsSent;
 
             $balances[$member->id] = [
                 'user' => $member,

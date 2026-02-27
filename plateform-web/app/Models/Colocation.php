@@ -40,6 +40,11 @@ class Colocation extends Model
         return $this->hasMany(Expense::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function isOwner(User $user): bool
     {
         return $this->owner_id === $user->id;

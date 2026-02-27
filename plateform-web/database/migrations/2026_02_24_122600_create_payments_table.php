@@ -8,19 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('invitations', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('colocation_id')->constrained()->onDelete('cascade');
-            $table->string('email');
-            $table->string('token')->unique();
-            $table->timestamp('expires_at');
-            $table->timestamp('accepted_at')->nullable();
+            $table->foreignId('from_user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('to_user_id')->constrained('users')->onDelete('cascade');
+            $table->decimal('amount', 10, 2);
+            $table->date('date');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('invitations');
+        Schema::dropIfExists('payments');
     }
 };
